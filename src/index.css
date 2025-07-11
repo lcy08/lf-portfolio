@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+body {
+  background: #dcf2f1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.nav {
+  color: floralwhite;
+  display: flex;
+  padding: 10px;
+}
+
+.nav li a {
+  color: beige;
+}
+
+.nav li a:hover {
+  color: #6a9ab0;
+}
