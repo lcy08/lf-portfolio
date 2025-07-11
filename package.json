@@ -59,7 +59,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "eslint . --ext .js,.jsx,.ts,.tsx && vite check",
