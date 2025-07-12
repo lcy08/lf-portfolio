@@ -1,28 +1,39 @@
+import React from 'react';
+import { useState, useEffect } from 'react';
+import NavItem from './NavItem';
+
 function Header(){
+    const [isActive, setIsActive] = useState(null);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = document.querySelectorAll('section[id]');
+            const sectionsArray = Array.from(sections).map(section => section.id);
+
+            const current = sectionsArray.find(id => {
+                const el = document.getElementById(id);
+                if (!el) return false;
+                const rect = el.getBoundingClientRect();
+                return rect.top <= 100 && rect.bottom >= 100;
+            });
+            if (current) setIsActive(current);
+            if (window.scrollY === 0) {
+                setIsActive(null);
+                document.querySelector('header').classList.remove('opacity-85');
+            }
+            else if (window.scrollY > 0) document.querySelector('header').classList.add('opacity-85');
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <header>
-            <section className="m-9 bg-slate-900 rounded-lg text-slate-200">
-                <ul className="p-3 flex justify-center sticky top-0 z-10">
-                <li className="mx-4">
-                    <a className="text-blue-600 hover:text-blue-800 font-medium" href="#about-me">
-                    About Me
-                    </a>
-                </li>
-                <li className="mx-4">
-                    <a className="text-blue-600 hover:text-blue-800 font-medium" href="#experience">
-                    Experience
-                    </a>
-                </li>
-                <li className="mx-4">
-                    <a className="text-blue-600 hover:text-blue-800 font-medium" href="#course">
-                    Course-work
-                    </a>
-                </li>
-                <li className="mx-4">
-                    <a className="text-blue-600 hover:text-blue-800 font-medium" href="#contact">
-                    Contact
-                    </a>
-                </li>
+        <header className="sticky top-3 z-10">
+            <section className="m-9 bg-background rounded-2xl p-3 shadow-lg">
+                <ul className="p-1 grid grid-cols-2 gap-3 md:flex md:justify-center md:items-center">
+                    <NavItem id='aboutMe' activeId={isActive}> About Me </NavItem>
+                    <NavItem id='experience' activeId={isActive}> Experience </NavItem>
                 </ul>
             </section>
         </header>
